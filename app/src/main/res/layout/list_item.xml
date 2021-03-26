@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:rowCount="1"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <TextView
+        android:id="@+id/weather"
+        android:layout_column="0"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="64dp"
+        android:paddingStart="64dp"
+        android:paddingTop="32dp"
+        android:paddingBottom="32dp"
+        tools:text="Cloudy"
+        android:textSize="16sp"
+        android:minWidth="200dp"
+        />
+
+
+    <TextView
+        android:id="@+id/temp"
+        android:layout_column="1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:text="Temp: 72"
+        android:textSize="16sp"/>
+
+</GridLayout>
