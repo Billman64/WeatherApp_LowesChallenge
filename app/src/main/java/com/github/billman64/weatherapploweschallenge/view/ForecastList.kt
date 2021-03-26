@@ -50,13 +50,13 @@ class ForecastList : AppCompatActivity() {
                     // Get data
                     try{
                         Log.d(TAG, " city: $city")
-                        val response = weatherDataAPI.getWeather(city,"65d00499677e59496ca2f318eb68c049").awaitResponse()
+                        val response = weatherDataAPI.getWeather(city,"insertAPIKeyHere").awaitResponse()
                         Log.d(TAG, " reponse code: ${response.code()} body: ${response.body()} errorBody: ${response.errorBody()}")
                         Log.d(TAG, " ${response.message()}")
 
                         // Parse data
 
-                        
+
 
 
 
