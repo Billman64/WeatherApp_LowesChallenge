@@ -6,6 +6,7 @@ import android.util.Log
 import android.widget.TextView
 import com.github.billman64.weatherapploweschallenge.R
 import com.github.billman64.weatherapploweschallenge.model.WeatherAPI
+import com.github.billman64.weatherapploweschallenge.model.WeatherObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -50,27 +51,50 @@ class ForecastList : AppCompatActivity() {
                     // Get data
                     try{
                         Log.d(TAG, " city: $city")
-                        val response = weatherDataAPI.getWeather(city,"insertAPIKeyHere").awaitResponse()
+                        val response = weatherDataAPI.getWeather(city,"65d00499677e59496ca2f318eb68c049").awaitResponse()
                         Log.d(TAG, " reponse code: ${response.code()} body: ${response.body()} errorBody: ${response.errorBody()}")
-                        Log.d(TAG, " ${response.message()}")
+                        Log.d(TAG, " ${response.body().toString().substring(0..100)}")
 
                         // Parse data
 
+                        val list = response.body()?.getAsJsonArray("list")
+                        Log.d(TAG, "list: ${list.toString().substring(0..25)}... size of list: ${list?.size()}")
 
+                        var weatherCollection = ArrayList<WeatherObject>()
 
+                        for(i in 1..list!!.size()){
+                            var weatherItem = list?.get(0)?.asJsonObject
+                            Log.d(TAG, "weather item: ${weatherItem.toString().substring(0..50)}")
 
+                            var weatherItemMain = weatherItem?.getAsJsonObject("main")?.asJsonObject
+                            Log.d(TAG, "weather main: ${weatherItemMain.toString().substring(0..50)}")
 
+                            var weatherItemWeather = weatherItem?.getAsJsonArray("weather")?.get(0)?.asJsonObject
+                            Log.d(TAG, "weather: ${weatherItemWeather.toString().substring(0..50)}")
 
+                            var weatherObject = WeatherObject(weatherItemMain?.get("temp").toString(),
+                                weatherItemMain?.get("feels_like").toString(),
+                                weatherItemWeather?.get("main").toString(),
+                                weatherItemWeather?.get("description").toString()
+                            )
+                            Log.d(TAG, "weatherObject: ${weatherObject}")
+
+                            weatherCollection.add(weatherObject)
+
+                        }
+                        Log.d(TAG, "weather collection size: ${weatherCollection.size}")
 
                         // Update UI
 
                         withContext(Dispatchers.Main){
 
+                            //TODO: create adapter for listView
+
                         }
 
 
                     } catch(e: Exception){
-                        Log.d(TAG," network error: ${e.message}")
+                        Log.e(TAG," network error: ${e.message}")
                     }
 
                 }
