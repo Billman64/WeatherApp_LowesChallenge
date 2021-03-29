@@ -19,6 +19,7 @@
         tools:text="Cloudy"
         android:textSize="16sp"
         android:minWidth="200dp"
+        android:textColor="@color/purple_200"
         />
 
 
@@ -28,6 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Temp: 72"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:textColor="@color/purple_200" />
 
 </GridLayout>

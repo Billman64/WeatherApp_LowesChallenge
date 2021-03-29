@@ -3,9 +3,12 @@ package com.github.billman64.weatherapploweschallenge.view
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.ListView
 import android.widget.TextView
 import com.github.billman64.weatherapploweschallenge.R
 import com.github.billman64.weatherapploweschallenge.model.WeatherAPI
+import com.github.billman64.weatherapploweschallenge.model.WeatherAdapter
+import com.github.billman64.weatherapploweschallenge.model.WeatherLVItem
 import com.github.billman64.weatherapploweschallenge.model.WeatherObject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -23,7 +26,7 @@ class ForecastList : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_forecast_list)
+        setContentView(R.layout.forecast_list)
 
         Log.d(TAG, "onCreate()")
 
@@ -61,6 +64,7 @@ class ForecastList : AppCompatActivity() {
                         Log.d(TAG, "list: ${list.toString().substring(0..25)}... size of list: ${list?.size()}")
 
                         var weatherCollection = ArrayList<WeatherObject>()
+                        var weatherCollectionForListView = ArrayList<WeatherLVItem>()
 
                         for(i in 1..list!!.size()){
                             var weatherItem = list?.get(0)?.asJsonObject
@@ -79,6 +83,7 @@ class ForecastList : AppCompatActivity() {
                             )
                             Log.d(TAG, "weatherObject: ${weatherObject}")
 
+                            weatherCollectionForListView.add(WeatherLVItem(weatherObject.weatherMain, weatherObject.temperature))
                             weatherCollection.add(weatherObject)
 
                         }
@@ -87,9 +92,9 @@ class ForecastList : AppCompatActivity() {
                         // Update UI
 
                         withContext(Dispatchers.Main){
-
-                            //TODO: create adapter for listView
-
+                            val lv = findViewById<ListView>(R.id.listView)
+                            val weatherAdapter = WeatherAdapter(baseContext, weatherCollectionForListView)
+                            lv.adapter = weatherAdapter
                         }
 
 
@@ -99,20 +104,8 @@ class ForecastList : AppCompatActivity() {
 
                 }
 
-
-
-
-
-
-
-
-
             }
         }
-
-
-
-
 
     }
 }
