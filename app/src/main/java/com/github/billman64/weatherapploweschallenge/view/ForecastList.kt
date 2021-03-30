@@ -1,5 +1,6 @@
 package com.github.billman64.weatherapploweschallenge.view
 
+import android.app.Dialog
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -54,7 +55,7 @@ class ForecastList : AppCompatActivity() {
                     // Get data
                     try{
                         Log.d(TAG, " city: $city")
-                        val response = weatherDataAPI.getWeather(city,"65d00499677e59496ca2f318eb68c049").awaitResponse()
+                        val response = weatherDataAPI.getWeather(city,"APIKey").awaitResponse()
                         Log.d(TAG, " reponse code: ${response.code()} body: ${response.body()} errorBody: ${response.errorBody()}")
                         Log.d(TAG, " ${response.body().toString().substring(0..100)}")
 
@@ -66,22 +67,22 @@ class ForecastList : AppCompatActivity() {
                         var weatherCollection = ArrayList<WeatherObject>()
                         var weatherCollectionForListView = ArrayList<WeatherLVItem>()
 
-                        for(i in 1..list!!.size()){
-                            var weatherItem = list?.get(0)?.asJsonObject
-                            Log.d(TAG, "weather item: ${weatherItem.toString().substring(0..50)}")
+                        for(i in 0..list!!.size()-1){
+                            var weatherItem = list?.get(i)?.asJsonObject
+                            Log.v(TAG, "weather item: ${weatherItem.toString().substring(0..50)}")
 
                             var weatherItemMain = weatherItem?.getAsJsonObject("main")?.asJsonObject
-                            Log.d(TAG, "weather main: ${weatherItemMain.toString().substring(0..50)}")
+                            Log.v(TAG, "weather main: ${weatherItemMain.toString().substring(0..50)}")
 
                             var weatherItemWeather = weatherItem?.getAsJsonArray("weather")?.get(0)?.asJsonObject
-                            Log.d(TAG, "weather: ${weatherItemWeather.toString().substring(0..50)}")
+                            Log.v(TAG, "weather: ${weatherItemWeather.toString().substring(0..50)}")
 
                             var weatherObject = WeatherObject(weatherItemMain?.get("temp").toString(),
                                 weatherItemMain?.get("feels_like").toString(),
                                 weatherItemWeather?.get("main").toString(),
                                 weatherItemWeather?.get("description").toString()
                             )
-                            Log.d(TAG, "weatherObject: ${weatherObject}")
+                            Log.v(TAG, "weatherObject: ${weatherObject}")
 
                             weatherCollectionForListView.add(WeatherLVItem(weatherObject.weatherMain, weatherObject.temperature))
                             weatherCollection.add(weatherObject)
@@ -95,11 +96,38 @@ class ForecastList : AppCompatActivity() {
                             val lv = findViewById<ListView>(R.id.listView)
                             val weatherAdapter = WeatherAdapter(baseContext, weatherCollectionForListView)
                             lv.adapter = weatherAdapter
+
+                            lv.setOnItemClickListener { parent, view, position, id ->
+                                //TODO: implement fragment for detail view
+
+                                val dialog: Dialog = Dialog(this@ForecastList)
+                                dialog.setContentView(R.layout.detail)
+                                var dialogTemp = dialog.findViewById<TextView>(R.id.temp)
+                                dialogTemp.text = "temp: " + weatherCollection[position].temperature
+
+                                var dialogFeelsLike = dialog.findViewById<TextView>(R.id.feels_like)
+                                dialogFeelsLike.text = "feels like: " + weatherCollection[position].feelsLike
+
+                                var dialogWeather = dialog.findViewById<TextView>(R.id.weather)
+                                dialogWeather.text = "weather: " + weatherCollection[position].weatherMain
+                                Log.d(TAG, " dialog weather: ${weatherCollection[position].weatherMain}")
+
+                                var dialogDescription = dialog.findViewById<TextView>(R.id.description)
+                                dialogDescription.text = weatherCollection[position].weatherDescription
+
+//                                dialogTemp.text = "71"
+//                                dialogFeelsLike.text = "feels like"
+//                                dialogWeather.text = "cloudy"
+//                                dialogDescription.text = "a bunch of clouds"
+
+
+                                dialog.show()
+                            }
                         }
 
 
                     } catch(e: Exception){
-                        Log.e(TAG," network error: ${e.message}")
+                        Log.e(TAG," Error. message: ${e.message} stacktrace: ${e.stackTrace}")
                     }
 
                 }

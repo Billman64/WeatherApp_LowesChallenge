@@ -35,6 +35,4 @@ class WeatherAdapter(private val context: Context, private val weatherList:Array
         temp.text = "temp: " + weatherList[position].temperature
         return cv
     }
-
-    //TODO: implement onClickListener for detail view
 }
