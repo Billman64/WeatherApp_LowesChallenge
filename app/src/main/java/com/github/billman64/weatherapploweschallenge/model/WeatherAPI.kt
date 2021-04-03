@@ -6,6 +6,6 @@ import retrofit2.http.Query
 
 interface WeatherAPI {
 
-    @GET("forecast?units=imperial&appid=65d00499677e59496ca2f318eb68c049")
+    @GET("forecast?units=imperial&appid=InsertApiKey")
     fun getWeather(@Query("q") city:String):retrofit2.Call<JsonObject>
 }

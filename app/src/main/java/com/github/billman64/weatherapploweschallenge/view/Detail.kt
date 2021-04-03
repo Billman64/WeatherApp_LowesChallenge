@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
 import com.github.billman64.weatherapploweschallenge.R
+import com.github.billman64.weatherapploweschallenge.utils.NumFormatter
 
 class Detail : AppCompatActivity() {
     val TAG = this.javaClass.simpleName + "--demo"
@@ -20,14 +21,19 @@ class Detail : AppCompatActivity() {
         bundle?.let{
             bundle.apply {
 
-                //TODO: city in titleBar
-//                supportActionBar?.setTitle(city)
+                val city = bundle.get("city").toString()
+                supportActionBar?.setTitle(city)
 
                 val tempView = findViewById<TextView>(R.id.temp)
-                tempView.text = it.getString("temperature") + "\u2109"
+                var temp = it.getString("temperature")
+                val n = NumFormatter()
+                temp = n.roundNum(temp!!).toString() + "\u2109"
+                tempView.text = temp
 
                 val feelsLikeView = findViewById<TextView>(R.id.feels_like)
-                feelsLikeView.text = "Feels like: " + it.getString("feelsLike") + "\u2109"
+                var feelsLike = it.getString("feelsLike")
+                feelsLike = n?.roundNum(feelsLike!!).toString() + "\u2109"
+                feelsLikeView.text = feelsLike
 
                 val weatherView = findViewById<TextView>(R.id.weather)
                 weatherView.text = it.getString("weather")

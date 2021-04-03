@@ -12,6 +12,7 @@ import com.github.billman64.weatherapploweschallenge.model.WeatherAPI
 import com.github.billman64.weatherapploweschallenge.model.WeatherAdapter
 import com.github.billman64.weatherapploweschallenge.model.WeatherLVItem
 import com.github.billman64.weatherapploweschallenge.model.WeatherObject
+import com.github.billman64.weatherapploweschallenge.utils.NumFormatter
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -89,7 +90,10 @@ class ForecastList : AppCompatActivity() {
                             )
                             Log.v(TAG, "weatherObject: ${weatherObject}")
 
-                            weatherCollectionForListView.add(WeatherLVItem(weatherObject.weatherMain, weatherObject.temperature))
+                            val n = NumFormatter()
+                            var temp = n.roundNum(weatherObject.temperature).toString()
+
+                            weatherCollectionForListView.add(WeatherLVItem(weatherObject.weatherMain, temp))
                             weatherCollection.add(weatherObject)
 
                         }
@@ -105,37 +109,33 @@ class ForecastList : AppCompatActivity() {
                             lv.setOnItemClickListener { parent, view, position, id ->
                                 //TODO: implement fragment for detail view
 
-                                val dialog: Dialog = Dialog(this@ForecastList)
-                                dialog.setContentView(R.layout.detail)
-                                var dialogTemp = dialog.findViewById<TextView>(R.id.temp)
-                                dialogTemp.text = weatherCollection[position].temperature + "\u2109"
-
-                                var dialogFeelsLike = dialog.findViewById<TextView>(R.id.feels_like)
-                                dialogFeelsLike.text = "Feels like: " + weatherCollection[position].feelsLike + "\u2109"
-
-                                var dialogWeather = dialog.findViewById<TextView>(R.id.weather)
-                                dialogWeather.text = weatherCollection[position].weatherMain
-                                Log.d(TAG, " dialog weather: ${weatherCollection[position].weatherMain}")
-
-                                var dialogDescription = dialog.findViewById<TextView>(R.id.description)
-                                dialogDescription.text = weatherCollection[position].weatherDescription
+//                                val dialog: Dialog = Dialog(this@ForecastList)
+//                                dialog.setContentView(R.layout.detail)
+//                                var dialogTemp = dialog.findViewById<TextView>(R.id.temp)
+//                                dialogTemp.text = weatherCollection[position].temperature + "\u2109"
+//
+//                                var dialogFeelsLike = dialog.findViewById<TextView>(R.id.feels_like)
+//                                dialogFeelsLike.text = "Feels like: " + weatherCollection[position].feelsLike + "\u2109"
+//
+//                                var dialogWeather = dialog.findViewById<TextView>(R.id.weather)
+//                                dialogWeather.text = weatherCollection[position].weatherMain
+//                                Log.d(TAG, " dialog weather: ${weatherCollection[position].weatherMain}")
+//
+//                                var dialogDescription = dialog.findViewById<TextView>(R.id.description)
+//                                dialogDescription.text = weatherCollection[position].weatherDescription
 
 //                                dialog.show()
 
+
                                 val i = Intent(applicationContext, Detail::class.java)
+                                i.putExtra("city", city)
                                 i.putExtra("temperature", weatherCollection[position].temperature)
                                 i.putExtra("feelsLike", weatherCollection[position].feelsLike)
                                 i.putExtra("weather", weatherCollection[position].weatherMain)
                                 i.putExtra("description", weatherCollection[position].weatherDescription)
                                 startActivity(i)
-
-
-
-
-
                             }
                         }
-
                     } catch(e: Exception){
                         Log.e(TAG," Error. message: ${e.message} stacktrace: ${e.stackTrace}")
                     }

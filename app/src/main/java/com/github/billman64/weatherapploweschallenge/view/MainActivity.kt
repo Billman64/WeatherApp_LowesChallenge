@@ -23,7 +23,6 @@ class MainActivity : AppCompatActivity() {
         button.setOnClickListener() {
             getWeatherData()
         }
-
     }
 
     fun getWeatherData(){
@@ -38,10 +37,5 @@ class MainActivity : AppCompatActivity() {
             i.putExtra("city", cityView.text.toString())
             startActivity(i)
         }
-
-
-
-
-
     }
 }
