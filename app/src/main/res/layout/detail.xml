@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/background">
 
     <TextView
         android:id="@+id/temp"
@@ -10,28 +11,43 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:textSize="48sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"
+        android:textColor="@color/black"
+        />
 
     <TextView
         android:id="@+id/feels_like"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="viewEnd"
-        app:layout_constraintTop_toBottomOf="@+id/temp" />
+        app:layout_constraintTop_toBottomOf="@+id/temp"
+        app:layout_constraintRight_toRightOf="@+id/temp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:gravity="end"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/weather"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/feels_like"
-        android:textAlignment="textStart" />
+        android:textAlignment="textStart"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"/>
 
     <TextView
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/weather"
-        android:textAlignment="textStart" />
+        android:textAlignment="textStart"
+        android:textColor="@color/black"
+        android:paddingStart="16dp"/>
 
 
 

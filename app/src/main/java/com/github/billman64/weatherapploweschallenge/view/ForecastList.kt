@@ -1,6 +1,7 @@
 package com.github.billman64.weatherapploweschallenge.view
 
 import android.app.Dialog
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -36,6 +37,7 @@ class ForecastList : AppCompatActivity() {
         bundle?.let {
             bundle.apply {
                 val city:String = getString("city")?:""
+                supportActionBar?.setTitle(city)
 
                 // Retrofit builder
                 val weatherDataAPI = Retrofit.Builder()
@@ -106,19 +108,31 @@ class ForecastList : AppCompatActivity() {
                                 val dialog: Dialog = Dialog(this@ForecastList)
                                 dialog.setContentView(R.layout.detail)
                                 var dialogTemp = dialog.findViewById<TextView>(R.id.temp)
-                                dialogTemp.text = "temp: " + weatherCollection[position].temperature
+                                dialogTemp.text = weatherCollection[position].temperature + "\u2109"
 
                                 var dialogFeelsLike = dialog.findViewById<TextView>(R.id.feels_like)
-                                dialogFeelsLike.text = "feels like: " + weatherCollection[position].feelsLike
+                                dialogFeelsLike.text = "Feels like: " + weatherCollection[position].feelsLike + "\u2109"
 
                                 var dialogWeather = dialog.findViewById<TextView>(R.id.weather)
-                                dialogWeather.text = "weather: " + weatherCollection[position].weatherMain
+                                dialogWeather.text = weatherCollection[position].weatherMain
                                 Log.d(TAG, " dialog weather: ${weatherCollection[position].weatherMain}")
 
                                 var dialogDescription = dialog.findViewById<TextView>(R.id.description)
                                 dialogDescription.text = weatherCollection[position].weatherDescription
 
-                                dialog.show()
+//                                dialog.show()
+
+                                val i = Intent(applicationContext, Detail::class.java)
+                                i.putExtra("temperature", weatherCollection[position].temperature)
+                                i.putExtra("feelsLike", weatherCollection[position].feelsLike)
+                                i.putExtra("weather", weatherCollection[position].weatherMain)
+                                i.putExtra("description", weatherCollection[position].weatherDescription)
+                                startActivity(i)
+
+
+
+
+
                             }
                         }
 
