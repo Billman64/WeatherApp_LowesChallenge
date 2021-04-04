@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val cityView = findViewById<TextView>(R.id.city)
-        cityView.text = "43016" // temp default for development only
+        cityView.text = "43016" //TODO: remove temp default (for development only)
 
         val button: Button = findViewById(R.id.button)
         button.setOnClickListener() {
@@ -28,10 +28,12 @@ class MainActivity : AppCompatActivity() {
     fun getWeatherData(){
 
         Log.d(TAG, "getWeatherData()")
-
         val cityView = findViewById<TextView>(R.id.city)
+
+        // If input is not blank, process weather data
         if(cityView.text.isNullOrBlank()) return
         else{
+
             // intent for ForecaseList activity
             val i = Intent(this, ForecastList::class.java)
             i.putExtra("city", cityView.text.toString())
