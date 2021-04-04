@@ -4,9 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.BaseAdapter
-import android.widget.ListView
 import android.widget.TextView
 import com.github.billman64.weatherapploweschallenge.R
 
@@ -19,7 +17,7 @@ class WeatherAdapter(private val context: Context, private val weatherList:Array
     }
 
     override fun getItem(position: Int): Any {
-        return weatherList.get(position)
+        return weatherList[position]
     }
 
     override fun getItemId(position: Int): Long {
@@ -32,7 +30,7 @@ class WeatherAdapter(private val context: Context, private val weatherList:Array
         weather = cv.findViewById(R.id.weather)
         weather.text = weatherList[position].weatherMain
         temp = cv.findViewById(R.id.temp)
-        temp.text = "temp: " + weatherList[position].temperature
+        temp.text = context.getString(R.string.temp) + ": " + weatherList[position].temperature
         return cv
     }
 }

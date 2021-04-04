@@ -18,7 +18,9 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         android:width="150dp"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:inputType="text"
+        android:autofillHints="postalCode, addressLocality"/>
 
     <Button
         android:id="@+id/button"

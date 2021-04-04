@@ -8,7 +8,7 @@ import com.github.billman64.weatherapploweschallenge.R
 import com.github.billman64.weatherapploweschallenge.utils.NumFormatter
 
 class Detail : AppCompatActivity() {
-    val TAG = this.javaClass.simpleName + "--demo"
+    private val TAG = this.javaClass.simpleName + "--demo"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class Detail : AppCompatActivity() {
 
                 val feelsLikeView = findViewById<TextView>(R.id.feels_like)
                 var feelsLike = it.getString("feelsLike")
-                feelsLike = n?.roundNum(feelsLike!!).toString() + "\u2109"
+                feelsLike = getString(R.string.feelLike) + ": " + n.roundNum(feelsLike!!).toString() + "\u2109"
                 feelsLikeView.text = feelsLike
 
                 val weatherView = findViewById<TextView>(R.id.weather)

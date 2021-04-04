@@ -1,6 +1,5 @@
 package com.github.billman64.weatherapploweschallenge
 
-import android.util.Log.*
 import com.github.billman64.weatherapploweschallenge.utils.NumFormatter
 import org.junit.Test
 

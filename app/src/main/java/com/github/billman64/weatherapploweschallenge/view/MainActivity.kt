@@ -11,7 +11,7 @@ import com.github.billman64.weatherapploweschallenge.R
 
 class MainActivity : AppCompatActivity() {
 
-    val TAG:String = this.javaClass.simpleName + "--demo"
+    private val TAG:String = this.javaClass.simpleName + "--demo"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         val cityView = findViewById<TextView>(R.id.city)
 
         val button: Button = findViewById(R.id.button)
-        button.setOnClickListener() {
+        button.setOnClickListener {
             getWeatherData()
         }
 
@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getWeatherData(){
+    private fun getWeatherData(){
 
         Log.d(TAG, "getWeatherData()")
         val cityView = findViewById<TextView>(R.id.city)

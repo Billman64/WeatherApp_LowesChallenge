@@ -7,7 +7,6 @@ import android.util.Log
 import android.view.View
 import android.widget.ListView
 import android.widget.ProgressBar
-import android.widget.TextView
 import com.github.billman64.weatherapploweschallenge.R
 import com.github.billman64.weatherapploweschallenge.model.WeatherAPI
 import com.github.billman64.weatherapploweschallenge.model.WeatherAdapter
@@ -25,10 +24,10 @@ import java.lang.Exception
 
 class ForecastList : AppCompatActivity() {
 
-    val TAG:String = this.javaClass.simpleName + "--demo"
-    var city:String = ""
-    var weatherCollection = ArrayList<WeatherObject>()
-    var responseCode = ""
+    private val TAG:String = this.javaClass.simpleName + "--demo"
+    private var city:String = ""
+    private var weatherCollection = ArrayList<WeatherObject>()
+    private var responseCode = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,11 +37,9 @@ class ForecastList : AppCompatActivity() {
         savedInstanceState?.let{Log.d(TAG, " onCreate() with a savedInstanceState") }?: getWeatherData()
     }
 
-    fun getWeatherData(){
+    private fun getWeatherData(){
 
         // if there is a bundle found containing a city (normal case), pull weather data for it
-        //TODO: handling for expired API
-        //TODO: handling for bad input
 
         val bundle:Bundle? = intent.extras
         bundle?.let {
@@ -80,17 +77,17 @@ class ForecastList : AppCompatActivity() {
                         Log.d(TAG, "list: ${list.toString().substring(0..25)}... size of list: ${list?.size()}")
 
 
-                        var weatherCollectionForListView = ArrayList<WeatherLVItem>()
+                        val weatherCollectionForListView = ArrayList<WeatherLVItem>()
 
                         // Get individual data items
-                        for(i in 0..list!!.size()-1){
-                            var weatherItem = list?.get(i)?.asJsonObject
+                        for(i in 0 until list!!.size()){
+                            val weatherItem = list.get(i)?.asJsonObject
                             Log.v(TAG, "weather item: ${weatherItem.toString().substring(0..50)}")
 
-                            var weatherItemMain = weatherItem?.getAsJsonObject("main")?.asJsonObject
+                            val weatherItemMain = weatherItem?.getAsJsonObject("main")?.asJsonObject
                             Log.v(TAG, "weather main: ${weatherItemMain.toString().substring(0..50)}")
 
-                            var weatherItemWeather = weatherItem?.getAsJsonArray("weather")?.get(0)?.asJsonObject
+                            val weatherItemWeather = weatherItem?.getAsJsonArray("weather")?.get(0)?.asJsonObject
                             Log.v(TAG, "weather: ${weatherItemWeather.toString().substring(0..50)}")
 
                             // trim quotes
@@ -99,15 +96,15 @@ class ForecastList : AppCompatActivity() {
                             var description = weatherItemWeather?.get("description").toString()
                             description = description.substring(1..description.length-2)
 
-                            var weatherObject = WeatherObject(weatherItemMain?.get("temp").toString(),
+                            val weatherObject = WeatherObject(weatherItemMain?.get("temp").toString(),
                                 weatherItemMain?.get("feels_like").toString(),
                                 main,
                                 description
                             )
-                            Log.v(TAG, "weatherObject: ${weatherObject}")
+                            Log.v(TAG, "weatherObject: $weatherObject")
 
                             val n = NumFormatter()
-                            var temp = n.roundNum(weatherObject.temperature).toString()
+                            val temp = n.roundNum(weatherObject.temperature).toString()
 
                             weatherCollectionForListView.add(WeatherLVItem(weatherObject.weatherMain, temp))
                             weatherCollection.add(weatherObject)
@@ -146,7 +143,6 @@ class ForecastList : AppCompatActivity() {
                             progressBar.visibility = View.GONE
                         }
 
-                        //TODO: navigate back to main, with an intent to display an error
                         val i = Intent(applicationContext, MainActivity::class.java)
                         i.putExtra("error", responseCode)
                         startActivity(i)
@@ -170,7 +166,7 @@ class ForecastList : AppCompatActivity() {
         city = savedInstanceState.getString("city")?:""
         val restoreList:ArrayList<WeatherObject>? = savedInstanceState.getParcelableArrayList("weatherCollection")
 
-        city?.let{ supportActionBar?.setTitle(city)}
+        city.let{ supportActionBar?.setTitle(city)}
 
         // If there is weather data from previous orientation, restore it all into the listView
         // No internet connection needed here.
@@ -183,7 +179,7 @@ class ForecastList : AppCompatActivity() {
 
                 // Populate listView
                 for(i in 0..weatherCollection.size-1){
-                    var weather = weatherCollection[i].weatherMain
+                    val weather = weatherCollection[i].weatherMain
                     var temp = weatherCollection[i].temperature
                     temp = n.roundNum(temp).toString()
 

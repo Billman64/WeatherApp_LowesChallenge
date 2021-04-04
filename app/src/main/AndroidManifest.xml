@@ -11,11 +11,12 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.WeatherAppLowesChallenge">
+        android:theme="@style/Theme.WeatherAppLowesChallenge"
+        android:fullBackupContent="@xml/backup_descriptor">
         <activity android:name=".view.Detail"
             android:launchMode="singleTop"
             android:parentActivityName=".view.ForecastList"
-            ></activity>
+            />
         <activity
             android:name=".view.ForecastList"
             android:launchMode="singleTop"

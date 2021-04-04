@@ -1,10 +1,8 @@
 package com.github.billman64.weatherapploweschallenge.utils
 
-import android.util.Log
 import kotlin.math.roundToInt
 
 class NumFormatter {
-    private val TAG = this.javaClass.simpleName + "--demo"
     fun roundNum(num:String):Int{
         return num.toFloat().roundToInt()
     }

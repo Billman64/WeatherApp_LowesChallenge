@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">WeatherApp(LowesChallenge)</string>
-    <string name="city_hint">City Name</string>
+    <string name="city_hint">City Name/ZIP</string>
     <string name="lookup">Lookup</string>
     <string name="netError">Error:</string>
     <string name="badInput">City not found.</string>
     <string name="badInputAdvice">Perhaps the city name was misspelled. Try again after correcting it. Or use its zip code.</string>
     <string name="badApiKey">Data source not available.</string>
     <string name="badApiKeyAdvice">Check for updates. The API key may be outdated.</string>
+    <string name="temp">Temp</string>
+    <string name="feelLike">Feels like</string>
 </resources>
