@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import com.github.billman64.weatherapploweschallenge.R
@@ -16,12 +17,43 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        val errorTv = findViewById<TextView>(R.id.error)
+        val errorAdviceTv = findViewById<TextView>(R.id.errorAdvice)
+        errorTv.visibility = View.GONE
+
         val cityView = findViewById<TextView>(R.id.city)
-        cityView.text = "43016" //TODO: remove temp default (for development only)
 
         val button: Button = findViewById(R.id.button)
         button.setOnClickListener() {
             getWeatherData()
+        }
+
+
+        // Error handling
+
+        val bundle:Bundle? = intent.extras
+        bundle?.let {
+            val error = it.getString("error")
+            var errorMsg = getString(R.string.netError)
+            var errorMsgAdvice = ""
+
+            Log.d(TAG, " response code received: $error")
+
+            when(error){
+                "404" -> {      // bad city
+                    errorMsg += " " + getString(R.string.badInput)
+                    errorMsgAdvice = getString(R.string.badInputAdvice)
+                }
+                "401" -> {      // bad API key
+                    errorMsg += " " + getString(R.string.badApiKey)
+                    errorMsgAdvice = getString(R.string.badApiKeyAdvice)
+                }
+            }
+
+            errorTv.text = errorMsg
+            errorAdviceTv.text = errorMsgAdvice
+            errorTv.visibility = View.VISIBLE
+            errorAdviceTv.visibility = View.VISIBLE
         }
     }
 

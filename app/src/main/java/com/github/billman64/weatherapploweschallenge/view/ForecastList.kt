@@ -28,6 +28,7 @@ class ForecastList : AppCompatActivity() {
     val TAG:String = this.javaClass.simpleName + "--demo"
     var city:String = ""
     var weatherCollection = ArrayList<WeatherObject>()
+    var responseCode = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -68,6 +69,7 @@ class ForecastList : AppCompatActivity() {
                     // Get data
                     try{
                         Log.d(TAG, " city: $city")
+                        responseCode = weatherDataAPI.getWeather(city).awaitResponse().code().toString()
                         val response = weatherDataAPI.getWeather(city).awaitResponse()
                         Log.d(TAG, " reponse code: ${response.code()} body: ${response.body().toString().substring(0..25)} errorBody: ${response.errorBody()}")
                         Log.d(TAG, " ${response.body().toString().substring(0..100)}")
@@ -138,7 +140,17 @@ class ForecastList : AppCompatActivity() {
                         }
                     } catch(e: Exception){
                         Log.e(TAG," Error. message: ${e.message} stacktrace: ${e.stackTrace}")
-                        progressBar.visibility = View.GONE
+                        Log.e(TAG, " response code: $responseCode")
+
+                        withContext(Dispatchers.Main){
+                            progressBar.visibility = View.GONE
+                        }
+
+                        //TODO: navigate back to main, with an intent to display an error
+                        val i = Intent(applicationContext, MainActivity::class.java)
+                        i.putExtra("error", responseCode)
+                        startActivity(i)
+                        finish()
                     }
                 }
             }
